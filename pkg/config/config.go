@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"github.com/pizsd/goapi/pkg/helpers"
 	"github.com/spf13/cast"
 	viperlib "github.com/spf13/viper"
@@ -22,7 +21,6 @@ type ConfigFunc func() map[string]interface{}
 var ConfigFuncs map[string]ConfigFunc
 
 func init() {
-	fmt.Println("config")
 	viper = viperlib.New()
 	viper.SetConfigType("env")
 	viper.AddConfigPath(".")
@@ -58,8 +56,8 @@ func loadConfig() {
 }
 
 func Env(envName string, defaultValue ...interface{}) interface{} {
-	if len(envName) > 0 {
-		return internalGet(envName, defaultValue)
+	if len(defaultValue) > 0 {
+		return internalGet(envName, defaultValue[0])
 	}
 	return internalGet(envName)
 }

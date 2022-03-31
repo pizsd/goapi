@@ -28,9 +28,10 @@ func InitLogger(filename string, maxSize, maxBackup, maxAge int, compress bool, 
 
 func getLogWriter(filename string, maxSize, maxBackup, maxAge int, compress bool, logType string) zapcore.WriteSyncer {
 	if logType == "daily" {
-		logname := time.Now().Format("2020-01-01.log")
+		logname := time.Now().Format("2006-01-02.log")
 		filename = strings.ReplaceAll(filename, "logs.log", logname)
 	}
+	fmt.Printf("file:%s", filename)
 	lumberJackLogger := &lumberjack.Logger{
 		Filename:   filename,
 		MaxSize:    maxSize,

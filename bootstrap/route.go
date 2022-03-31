@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/pizsd/goapi/app/http/middlewares"
 	"github.com/pizsd/goapi/routes"
 	"net/http"
 	"strings"
@@ -17,7 +18,7 @@ func SetupRoute(r *gin.Engine) {
 }
 
 func registerGlobalMiddleware(r *gin.Engine) {
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middlewares.Logger(), gin.Recovery())
 }
 
 func setupNotFoundHandler(r *gin.Engine) {
