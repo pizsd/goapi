@@ -18,7 +18,7 @@ func SetupRoute(r *gin.Engine) {
 }
 
 func registerGlobalMiddleware(r *gin.Engine) {
-	r.Use(middlewares.Logger(), gin.Recovery())
+	r.Use(middlewares.Logger(), middlewares.Recovery())
 }
 
 func setupNotFoundHandler(r *gin.Engine) {
