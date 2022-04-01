@@ -6,10 +6,10 @@ import (
 	"github.com/pizsd/goapi/app/models/user"
 	"github.com/pizsd/goapi/pkg/config"
 	"github.com/pizsd/goapi/pkg/database"
+	"github.com/pizsd/goapi/pkg/logger"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"time"
 )
 
@@ -35,7 +35,7 @@ func SetupDB() {
 	default:
 		panic(errors.New("database connection not supported"))
 	}
-	database.Connect(dbConfig, logger.Default.LogMode(logger.Info))
+	database.Connect(dbConfig, logger.NewGormLogger())
 	database.SQLDB.SetMaxOpenConns(config.GetInt("database.mysql.max_open_connections"))
 	database.SQLDB.SetMaxIdleConns(config.GetInt("database.mysql.max_idle_connections"))
 	database.SQLDB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
