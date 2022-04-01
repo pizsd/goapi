@@ -23,6 +23,7 @@ func main() {
 	engine := gin.New()
 	bootstrap.SetupLogger()
 	bootstrap.SetupDB()
+	bootstrap.SetupRedis()
 	bootstrap.SetupRoute(engine)
 	err := engine.Run(":" + config.Get("app.port"))
 	if err != nil {
