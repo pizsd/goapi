@@ -6,9 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pizsd/goapi/bootstrap"
 	btsConfig "github.com/pizsd/goapi/config"
-	"github.com/pizsd/goapi/pkg/captcha"
 	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/logger"
 )
 
 func init() {
@@ -27,7 +25,6 @@ func main() {
 	bootstrap.SetupDB()
 	bootstrap.SetupRedis()
 	bootstrap.SetupRoute(engine)
-	logger.Dump(captcha.NewCaptcha().VerifyCaptcha("dm9vQ0gsZYmXoumdq8N9", "218949"), "正确的答案")
 	err := engine.Run(":" + config.Get("app.port"))
 	if err != nil {
 		fmt.Println(err.Error())
