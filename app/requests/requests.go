@@ -3,6 +3,7 @@ package requests
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/pizsd/goapi/pkg/response"
 	"github.com/thedevsaddam/govalidator"
 	"net/http"
 )
@@ -20,10 +21,7 @@ func Validate(c *gin.Context, obj interface{}, handler ValidateFunc) bool {
 	}
 	errs := handler(obj, c)
 	if len(errs) > 0 {
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-			"message": "参数错误",
-			"errors":  errs,
-		})
+		response.ValidationError(c, errs)
 		return false
 	}
 	return true
