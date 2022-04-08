@@ -7,6 +7,7 @@ import (
 	"github.com/pizsd/goapi/bootstrap"
 	btsConfig "github.com/pizsd/goapi/config"
 	"github.com/pizsd/goapi/pkg/config"
+	"github.com/pizsd/goapi/pkg/helpers"
 )
 
 func init() {
@@ -25,6 +26,7 @@ func main() {
 	bootstrap.SetupDB()
 	bootstrap.SetupRedis()
 	bootstrap.SetupRoute(engine)
+	helpers.RandomNumber(6)
 	err := engine.Run(":" + config.Get("app.port"))
 	if err != nil {
 		fmt.Println(err.Error())
