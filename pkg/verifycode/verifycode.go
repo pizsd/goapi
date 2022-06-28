@@ -35,8 +35,9 @@ func (vc *VerifyCode) SendCode(phone string) bool {
 	if !app.IsProd() && strings.HasPrefix(phone, config.GetString("verifycode.debug_phone_prefix")) {
 		return true
 	}
-	return sms.NewSms().Send(phone, sms.Message{
-		Template: config.GetString("sms.template_code"),
+	s := sms.NewSms()
+	return s.Send(phone, sms.Message{
+		Template: s.Driver.Config()["template_code"],
 		Data:     map[string]string{"code": code},
 	})
 }

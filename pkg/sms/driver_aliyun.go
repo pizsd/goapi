@@ -3,6 +3,7 @@ package sms
 import (
 	"encoding/json"
 	aliyunSmsClient "github.com/KenmyZhang/aliyun-communicate"
+	"github.com/pizsd/goapi/pkg/config"
 	"github.com/pizsd/goapi/pkg/logger"
 )
 
@@ -43,4 +44,8 @@ func (s *Aliyun) Send(phone string, message Message, config map[string]string) b
 		logger.ErrorString("短信[阿里云]", "发送失败", string(resultJson))
 		return false
 	}
+}
+
+func (s *Aliyun) Config() map[string]string {
+	return config.GetStringMapString("sms.aliyun")
 }

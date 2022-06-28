@@ -1,7 +1,6 @@
 package sms
 
 import (
-	"github.com/pizsd/goapi/pkg/config"
 	"sync"
 )
 
@@ -29,5 +28,5 @@ func NewSms() *SMS {
 }
 
 func (s *SMS) Send(phone string, message Message) bool {
-	return s.Driver.Send(phone, message, config.GetStringMapString("sms.aliyun"))
+	return s.Driver.Send(phone, message, s.Driver.Config())
 }

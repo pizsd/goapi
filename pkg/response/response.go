@@ -13,22 +13,22 @@ func JSON(c *gin.Context, data interface{}) {
 
 func Success(c *gin.Context) {
 	JSON(c, gin.H{
-		"success": true,
-		"message": "操作成功!",
+		"code":    http.StatusOK,
+		"message": "success",
 	})
 }
 
 func Data(c *gin.Context, data interface{}) {
 	JSON(c, gin.H{
-		"success": true,
-		"data":    data,
+		"code": http.StatusOK,
+		"data": data,
 	})
 }
 
 func Created(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusCreated, gin.H{
-		"success": true,
-		"data":    data,
+		"code": http.StatusCreated,
+		"data": data,
 	})
 }
 
@@ -38,7 +38,7 @@ func CreatedJosn(c *gin.Context, data interface{}) {
 
 func Abort404(c *gin.Context, msg ...string) {
 	c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-		"message": defaultMessage("数据不存在，请确定请求正确", msg...),
+		"message": defaultMessage("资源不存在，请确定请求正确", msg...),
 	})
 }
 
