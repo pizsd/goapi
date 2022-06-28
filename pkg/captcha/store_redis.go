@@ -14,7 +14,7 @@ type RedisStore struct {
 }
 
 func (rs *RedisStore) Set(key string, value string) error {
-	ExpireTime := time.Minute * time.Duration(config.GetInt64("captcha.expire_tim"))
+	ExpireTime := time.Minute * time.Duration(config.GetInt64("captcha.expire_time"))
 	if app.IsLocal() {
 		ExpireTime = time.Minute * time.Duration(config.GetInt64("captcha.debug_expire_time"))
 	}
