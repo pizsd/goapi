@@ -58,7 +58,7 @@ func BadRequest(c *gin.Context, err error, msg ...string) {
 	logger.LogIf(err)
 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 		"message": defaultMessage("请求解析错误，请确认请求格式是否正确。", msg...),
-		"error":   err.Error(),
+		"errors":  err.Error(),
 	})
 }
 

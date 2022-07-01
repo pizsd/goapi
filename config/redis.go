@@ -5,10 +5,10 @@ import "github.com/pizsd/goapi/pkg/config"
 func init() {
 	config.Add("redis", func() map[string]interface{} {
 		return map[string]interface{}{
-			"host":     config.Env("redis.host", "127.0.0.1"),
-			"port":     config.Env("redis.port", "6379"),
-			"password": config.Env("redis.password", ""),
-			"database": config.Env("redis.db", 1),
+			"host":     config.Env("REDIS_HOST", "127.0.0.1"),
+			"port":     config.Env("REDIS_PORT", "6379"),
+			"password": config.Env("REDIS_PASSWORD", ""),
+			"database": config.Env("REDIS_SELECT_DB", 1),
 		}
 	})
 }
