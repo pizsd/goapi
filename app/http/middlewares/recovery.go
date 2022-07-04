@@ -2,9 +2,9 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pizsd/goapi/pkg/logger"
-	"github.com/pizsd/goapi/pkg/response"
 	"go.uber.org/zap"
+	"goapi/pkg/logger"
+	"goapi/pkg/response"
 	"net"
 	"net/http/httputil"
 	"os"

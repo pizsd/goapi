@@ -3,9 +3,9 @@ package middlewares
 import (
 	"bytes"
 	"github.com/gin-gonic/gin"
-	"github.com/pizsd/goapi/pkg/logger"
 	"github.com/spf13/cast"
 	"go.uber.org/zap"
+	"goapi/pkg/logger"
 	"io/ioutil"
 	"time"
 )

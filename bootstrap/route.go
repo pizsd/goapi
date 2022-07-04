@@ -2,8 +2,8 @@ package bootstrap
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pizsd/goapi/app/http/middlewares"
-	"github.com/pizsd/goapi/routes"
+	"goapi/app/http/middlewares"
+	"goapi/routes"
 	"net/http"
 	"strings"
 )

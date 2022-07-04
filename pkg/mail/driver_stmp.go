@@ -3,9 +3,9 @@ package mail
 import (
 	"fmt"
 	emailPKG "github.com/jordan-wright/email"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/helpers"
-	"github.com/pizsd/goapi/pkg/logger"
+	"goapi/pkg/config"
+	"goapi/pkg/helpers"
+	"goapi/pkg/logger"
 	"net/smtp"
 )
 

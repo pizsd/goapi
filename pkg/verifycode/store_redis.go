@@ -1,9 +1,9 @@
 package verifycode
 
 import (
-	"github.com/pizsd/goapi/pkg/app"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/redis"
+	"goapi/pkg/app"
+	"goapi/pkg/config"
+	"goapi/pkg/redis"
 	"time"
 )
 

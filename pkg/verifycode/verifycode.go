@@ -2,13 +2,13 @@ package verifycode
 
 import (
 	"fmt"
-	"github.com/pizsd/goapi/pkg/app"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/helpers"
-	"github.com/pizsd/goapi/pkg/logger"
-	"github.com/pizsd/goapi/pkg/mail"
-	"github.com/pizsd/goapi/pkg/redis"
-	"github.com/pizsd/goapi/pkg/sms"
+	"goapi/pkg/app"
+	"goapi/pkg/config"
+	"goapi/pkg/helpers"
+	"goapi/pkg/logger"
+	"goapi/pkg/mail"
+	"goapi/pkg/redis"
+	"goapi/pkg/sms"
 	"strings"
 	"sync"
 )

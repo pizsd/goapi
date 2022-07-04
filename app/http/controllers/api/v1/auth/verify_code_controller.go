@@ -2,12 +2,12 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "github.com/pizsd/goapi/app/http/controllers/api/v1"
-	"github.com/pizsd/goapi/app/requests"
-	"github.com/pizsd/goapi/pkg/captcha"
-	"github.com/pizsd/goapi/pkg/logger"
-	"github.com/pizsd/goapi/pkg/response"
-	"github.com/pizsd/goapi/pkg/verifycode"
+	v1 "goapi/app/http/controllers/api/v1"
+	"goapi/app/requests"
+	"goapi/pkg/captcha"
+	"goapi/pkg/logger"
+	"goapi/pkg/response"
+	"goapi/pkg/verifycode"
 )
 
 type VerifyCodeController struct {

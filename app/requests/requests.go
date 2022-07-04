@@ -3,8 +3,8 @@ package requests
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/pizsd/goapi/pkg/response"
 	"github.com/thedevsaddam/govalidator"
+	"goapi/pkg/response"
 )
 
 type ValidateFunc func(interface{}, *gin.Context) map[string][]string

@@ -2,7 +2,7 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pizsd/goapi/pkg/logger"
+	"goapi/pkg/logger"
 	"gorm.io/gorm"
 	"net/http"
 )

@@ -1,6 +1,6 @@
 package config
 
-import "github.com/pizsd/goapi/pkg/config"
+import "goapi/pkg/config"
 
 func init() {
 	config.Add("log", func() map[string]interface{} {

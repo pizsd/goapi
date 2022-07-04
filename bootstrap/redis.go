@@ -2,8 +2,8 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/redis"
+	"goapi/pkg/config"
+	"goapi/pkg/redis"
 )
 
 func SetupRedis() {

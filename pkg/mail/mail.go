@@ -1,7 +1,7 @@
 package mail
 
 import (
-	"github.com/pizsd/goapi/pkg/config"
+	"goapi/pkg/config"
 	"sync"
 )
 

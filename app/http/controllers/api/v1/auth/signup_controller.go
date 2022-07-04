@@ -2,10 +2,10 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "github.com/pizsd/goapi/app/http/controllers/api/v1"
-	"github.com/pizsd/goapi/app/models/user"
-	"github.com/pizsd/goapi/app/requests"
-	"github.com/pizsd/goapi/pkg/response"
+	v1 "goapi/app/http/controllers/api/v1"
+	"goapi/app/models/user"
+	"goapi/app/requests"
+	"goapi/pkg/response"
 )
 
 type SignupController struct {

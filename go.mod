@@ -1,4 +1,4 @@
-module github.com/pizsd/goapi
+module goapi
 
 go 1.17
 
@@ -8,6 +8,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
 	github.com/mojocn/base64Captcha v1.3.5
+	github.com/pizsd/goapi v0.0.0-20220704090045-60416c2e8052
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/viper v1.10.1
 	github.com/thedevsaddam/govalidator v1.9.10

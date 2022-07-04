@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/logger"
+	"goapi/pkg/config"
+	"goapi/pkg/logger"
 )
 
 func SetupLogger() {

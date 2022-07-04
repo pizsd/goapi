@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/pizsd/goapi/pkg/config"
+	"goapi/pkg/config"
 )
 
 func init() {

@@ -1,6 +1,6 @@
 package user
 
-import "github.com/pizsd/goapi/app/models"
+import "goapi/app/models"
 
 type User struct {
 	models.BaseModel

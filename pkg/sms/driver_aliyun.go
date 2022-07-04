@@ -3,8 +3,8 @@ package sms
 import (
 	"encoding/json"
 	aliyunSmsClient "github.com/KenmyZhang/aliyun-communicate"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/logger"
+	"goapi/pkg/config"
+	"goapi/pkg/logger"
 )
 
 type Aliyun struct {

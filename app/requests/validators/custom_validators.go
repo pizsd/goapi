@@ -1,6 +1,6 @@
 package validators
 
-import "github.com/pizsd/goapi/pkg/captcha"
+import "goapi/pkg/captcha"
 
 func VerifyCaptcha(captchaId, captchaAnswer string, errs map[string][]string) map[string][]string {
 	if ok := captcha.NewCaptcha().VerifyCaptcha(captchaId, captchaAnswer); !ok {

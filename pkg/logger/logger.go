@@ -3,9 +3,9 @@ package logger
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/pizsd/goapi/pkg/app"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"goapi/pkg/app"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"os"
 	"strings"

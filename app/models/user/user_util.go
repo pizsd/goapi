@@ -1,6 +1,6 @@
 package user
 
-import "github.com/pizsd/goapi/pkg/database"
+import "goapi/pkg/database"
 
 func IsEmailExist(email string) bool {
 	var count int64

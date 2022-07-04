@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/pizsd/goapi/pkg/helpers"
 	"github.com/spf13/cast"
 	viperlib "github.com/spf13/viper"
+	"goapi/pkg/helpers"
 	"os"
 )
 
