@@ -1,10 +1,12 @@
 package verifycode
 
 import (
+	"fmt"
 	"github.com/pizsd/goapi/pkg/app"
 	"github.com/pizsd/goapi/pkg/config"
 	"github.com/pizsd/goapi/pkg/helpers"
 	"github.com/pizsd/goapi/pkg/logger"
+	"github.com/pizsd/goapi/pkg/mail"
 	"github.com/pizsd/goapi/pkg/redis"
 	"github.com/pizsd/goapi/pkg/sms"
 	"strings"
@@ -30,7 +32,7 @@ func NewVerifyCode() *VerifyCode {
 	return internalVerifyCode
 }
 
-func (vc *VerifyCode) SendCode(phone string) bool {
+func (vc *VerifyCode) SendSmsCode(phone string) bool {
 	code := vc.GenerateCode(phone)
 	if !app.IsProd() && strings.HasPrefix(phone, config.GetString("verifycode.debug_phone_prefix")) {
 		return true
@@ -39,6 +41,24 @@ func (vc *VerifyCode) SendCode(phone string) bool {
 	return s.Send(phone, sms.Message{
 		Template: s.Driver.Config()["template_code"],
 		Data:     map[string]string{"code": code},
+	})
+}
+
+func (vc *VerifyCode) SendEmailCode(email string) bool {
+	code := vc.GenerateCode(email)
+	if !app.IsProd() && strings.HasPrefix(email, config.GetString("verifycode.debug_email_suffix")) {
+		return true
+	}
+	e := mail.NewMailer()
+	content := fmt.Sprintf("<h1>您的Email验证码是：%v</h1>", code)
+	return e.Send(mail.Email{
+		From: mail.From{
+			Address: e.Driver.Config()["address"],
+			Name:    e.Driver.Config()["name"],
+		},
+		To:      []string{email},
+		Subject: "GoApi 邮件验证码",
+		HTML:    []byte(content),
 	})
 }
 

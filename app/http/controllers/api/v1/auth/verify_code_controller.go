@@ -32,8 +32,20 @@ func (vc *VerifyCodeController) SendSmsCode(c *gin.Context) {
 		return
 	}
 
-	if ok := verifycode.NewVerifyCode().SendCode(request.Phone); !ok {
+	if ok := verifycode.NewVerifyCode().SendSmsCode(request.Phone); !ok {
 		response.Abort500(c, "发送短信失败~")
+	} else {
+		response.Success(c)
+	}
+}
+
+func (vc *VerifyCodeController) SendEmailCode(c *gin.Context) {
+	request := requests.VerifyCodeEmailRequest{}
+	if ok := requests.Validate(c, &request, requests.VerifyCodeEmail); !ok {
+		return
+	}
+	if ok := verifycode.NewVerifyCode().SendEmailCode(request.Email); !ok {
+		response.Abort500(c, "发送邮件失败~")
 	} else {
 		response.Success(c)
 	}

@@ -49,3 +49,11 @@ func RandomNumber(length int) string {
 	fmt.Println(b, string(b))
 	return string(b)
 }
+
+// TODO 原生MAP不支持并发写,需要使用sync.Map,目前项目用不到
+func MapMerge(m1 map[string]string, m2 map[string]string) map[string]string {
+	for k, v := range m2 {
+		m1[k] = v
+	}
+	return m1
+}
