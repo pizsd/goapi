@@ -68,9 +68,6 @@ func VerifyCodeEmail(data interface{}, c *gin.Context) map[string][]string {
 	}
 
 	errs := validate(data, rules, messages)
-	if len(errs) != 0 {
-		return errs
-	}
 	_data := data.(*VerifyCodeEmailRequest)
 	errs = validators.VerifyCaptcha(_data.CaptchaID, _data.CaptchaAnswer, errs)
 	return errs
