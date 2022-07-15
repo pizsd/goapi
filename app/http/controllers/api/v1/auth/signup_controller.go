@@ -39,7 +39,6 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 	}
 	_user := user.User{
 		Name:     request.Name,
-		Email:    request.Email,
 		Phone:    request.Phone,
 		Password: request.Password,
 	}
@@ -49,4 +48,23 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 	} else {
 		response.Abort500(c, "服务器错误，请稍候再试")
 	}
+}
+
+func (sc *SignupController) SignupUsingEmail(c *gin.Context) {
+	request := requests.SignupUsingEmailRequest{}
+	if ok := requests.Validate(c, &request, requests.SignupUsingEmail); !ok {
+		return
+	}
+	_user := user.User{
+		Name:     request.Name,
+		Email:    request.Email,
+		Password: request.Password,
+	}
+	_user.Create()
+	if _user.ID > 0 {
+		response.CreatedJosn(c, _user)
+	} else {
+		response.Abort500(c, "服务器错误，请稍候再试")
+	}
+
 }
