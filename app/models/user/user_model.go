@@ -3,6 +3,7 @@ package user
 import (
 	"goapi/app/models"
 	"goapi/pkg/database"
+	"goapi/pkg/hash"
 )
 
 type User struct {
@@ -14,6 +15,10 @@ type User struct {
 	models.CommonTimestampsField
 }
 
-func (userModel *User) Create() {
-	database.DB.Create(&userModel)
+func (u *User) Create() {
+	database.DB.Create(&u)
+}
+
+func (u *User) ComparePassword(pwd string) bool {
+	return hash.BcryptCheck(pwd, u.Password)
 }
