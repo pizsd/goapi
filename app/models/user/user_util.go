@@ -1,6 +1,8 @@
 package user
 
-import "goapi/pkg/database"
+import (
+	"goapi/pkg/database"
+)
 
 func IsEmailExist(email string) bool {
 	var count int64

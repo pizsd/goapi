@@ -2,9 +2,9 @@ package captcha
 
 import (
 	"github.com/mojocn/base64Captcha"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/redis"
 	"goapi/pkg/app"
+	"goapi/pkg/config"
+	"goapi/pkg/redis"
 	"sync"
 )
 

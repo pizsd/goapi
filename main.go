@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/pizsd/goapi/bootstrap"
-	btsConfig "github.com/pizsd/goapi/config"
-	"github.com/pizsd/goapi/pkg/config"
-	"github.com/pizsd/goapi/pkg/helpers"
+	"goapi/bootstrap"
+	btsConfig "goapi/config"
+	"goapi/pkg/config"
+	"goapi/pkg/helpers"
 )
 
 func init() {

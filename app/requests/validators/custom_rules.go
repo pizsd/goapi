@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	govalidator.AddCustomRule("no_exist", func(field string, rule string, message string, value interface{}) error {
-		ruleSlice := strings.Split(strings.TrimPrefix(rule, "no_exist:"), ",")
+	govalidator.AddCustomRule("not_exists", func(field string, rule string, message string, value interface{}) error {
+		ruleSlice := strings.Split(strings.TrimPrefix(rule, "not_exists:"), ",")
 		tableName := ruleSlice[0]
 		tableField := ruleSlice[1]
 		var exceptId string
@@ -29,7 +29,7 @@ func init() {
 			if message != "" {
 				return errors.New(message)
 			} else {
-				return fmt.Errorf("%v 用户名已存在", requestValue)
+				return fmt.Errorf("%v 已被占用", requestValue)
 			}
 		}
 		return nil

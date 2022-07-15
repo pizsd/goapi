@@ -65,7 +65,7 @@ func BadRequest(c *gin.Context, err error, msg ...string) {
 func Error(c *gin.Context, err error, msg ...string) {
 	logger.LogIf(err)
 	if err == gorm.ErrRecordNotFound {
-		Abort404(c, "无效的资源")
+		Abort404(c, "资源未找到")
 		return
 	}
 	c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
