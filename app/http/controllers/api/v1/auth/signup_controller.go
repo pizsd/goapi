@@ -5,6 +5,7 @@ import (
 	v1 "goapi/app/http/controllers/api/v1"
 	"goapi/app/models/user"
 	"goapi/app/requests"
+	"goapi/pkg/jwt"
 	"goapi/pkg/response"
 )
 
@@ -44,7 +45,11 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 	}
 	_user.Create()
 	if _user.ID > 0 {
-		response.CreatedJosn(c, _user)
+		token := jwt.NewJwt().IsuseToken(_user.GetStringId(), _user.Name)
+		response.CreatedJosn(c, gin.H{
+			"token":    token,
+			"userinfo": _user,
+		})
 	} else {
 		response.Abort500(c, "服务器错误，请稍候再试")
 	}
@@ -62,7 +67,11 @@ func (sc *SignupController) SignupUsingEmail(c *gin.Context) {
 	}
 	_user.Create()
 	if _user.ID > 0 {
-		response.CreatedJosn(c, _user)
+		token := jwt.NewJwt().IsuseToken(_user.GetStringId(), _user.Name)
+		response.CreatedJosn(c, gin.H{
+			"token":    token,
+			"userinfo": _user,
+		})
 	} else {
 		response.Abort500(c, "服务器错误，请稍候再试")
 	}
