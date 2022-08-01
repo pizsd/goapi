@@ -85,7 +85,6 @@ func ValidationError(c *gin.Context, errors map[string][]string) {
 		"message": defaultMessage("参数错误"),
 		"errors":  errors,
 	})
-
 }
 
 func defaultMessage(defaultMessage string, msg ...string) (message string) {

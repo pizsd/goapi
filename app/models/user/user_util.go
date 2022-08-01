@@ -19,7 +19,7 @@ func IsPhoneExist(phone string) bool {
 func GetByMulti(loginId string) (userModel User) {
 	database.DB.Where("phone = ?", loginId).
 		Or("email = ?", loginId).
-		Or("username = ?", loginId).First(&userModel)
+		Or("name = ?", loginId).First(&userModel)
 	return
 }
 

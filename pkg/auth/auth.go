@@ -5,8 +5,8 @@ import (
 	"goapi/app/models/user"
 )
 
-func Attempt(email, password string) (user.User, error) {
-	userModel := user.GetByMulti(email)
+func Attempt(loginId, password string) (user.User, error) {
+	userModel := user.GetByMulti(loginId)
 	if userModel.ID == 0 {
 		return user.User{}, errors.New("帐号不存在")
 	}
