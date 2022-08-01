@@ -69,7 +69,7 @@ func Error(c *gin.Context, err error, msg ...string) {
 		return
 	}
 	c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-		"message": defaultMessage("参数错误"),
+		"message": defaultMessage("参数错误", msg...),
 		"error":   err.Error(),
 	})
 }
