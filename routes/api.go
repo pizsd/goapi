@@ -29,6 +29,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 			lc := new(auth.LoginController)
 			authGroup.POST("/login/using-phone", lc.LoginByPhone)
 			authGroup.POST("/login/using-multi", lc.LoginByMulti)
+			authGroup.POST("/login/refresh-token", lc.RefreshToken)
 		}
 	}
 }

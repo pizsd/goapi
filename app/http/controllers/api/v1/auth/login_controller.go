@@ -24,8 +24,8 @@ func (lc *LoginController) LoginByPhone(c *gin.Context) {
 	}
 	token := jwt.NewJwt().IsuseToken(user.GetStringId(), user.Name)
 	response.JSON(c, gin.H{
-		"userinfo": user,
 		"token":    token,
+		"userinfo": user,
 	})
 }
 
@@ -44,4 +44,14 @@ func (lc *LoginController) LoginByMulti(c *gin.Context) {
 			"userinfo": user,
 		})
 	}
+}
+
+func (lc *LoginController) RefreshToken(c *gin.Context) {
+	token, err := jwt.NewJwt().RefreshToken(c)
+	if err != nil {
+		response.Error(c, err, "token刷新失败")
+	}
+	response.JSON(c, gin.H{
+		"token": token,
+	})
 }

@@ -104,9 +104,9 @@ func (jwt *JWT) IsuseToken(id, name string) string {
 		ExpireAtTime: expireTime,
 		StandardClaims: jwtpkg.StandardClaims{
 			Issuer:    config.GetString("app.name"),
-			IssuedAt:  expireTime,
-			ExpiresAt: app.TimenowInTimezone().Add(time.Duration(expireTime) * time.Minute).Unix(),
-			NotBefore: expireTime,
+			IssuedAt:  time.Now().Unix(),
+			ExpiresAt: expireTime,
+			NotBefore: time.Now().Unix(),
 		},
 	}
 	token, err := jwt.createToken(claims)
