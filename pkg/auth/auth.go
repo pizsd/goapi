@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"github.com/gin-gonic/gin"
 	"goapi/app/models/user"
 )
 
@@ -22,4 +23,13 @@ func LoginByPhone(phone string) (user.User, error) {
 		return user.User{}, errors.New("手机号未注册")
 	}
 	return userModel, nil
+}
+
+func User(c *gin.Context) user.User {
+	userModel := c.MustGet("user").(user.User)
+	return userModel
+}
+
+func Uid(c *gin.Context) string {
+	return c.GetString("uid")
 }
