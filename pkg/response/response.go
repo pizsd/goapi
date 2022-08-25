@@ -57,6 +57,13 @@ func Abort500(c *gin.Context, msg ...string) {
 	})
 }
 
+func Abort429(c *gin.Context, msg ...string) {
+	c.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{
+		"code":    http.StatusTooManyRequests,
+		"message": defaultMessage("429 Requests too many", msg...),
+	})
+}
+
 func BadRequest(c *gin.Context, err error, msg ...string) {
 	logger.LogIf(err)
 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
