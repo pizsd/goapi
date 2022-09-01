@@ -15,7 +15,7 @@ func GetKeyIP(c *gin.Context) string {
 }
 
 func GetRouteWithIP(c *gin.Context) string {
-	return routeToKeyString(c.FullPath() + c.ClientIP())
+	return routeToKeyString(c.ClientIP() + c.FullPath())
 }
 
 func CheckRate(c *gin.Context, key string, formatted string) (libLimiter.Context, error) {
@@ -26,17 +26,17 @@ func CheckRate(c *gin.Context, key string, formatted string) (libLimiter.Context
 		return context, err
 	}
 	store, err := sredis.NewStoreWithOptions(redis.Redis.Client, libLimiter.StoreOptions{
-		Prefix: config.GetString("app.name", "go-api"),
+		Prefix: config.GetString("app.name", "go-api") + ":limiter",
 	})
 	if err != nil {
 		logger.LogIf(err)
 		return context, err
 	}
 	limiterObj := libLimiter.New(store, rate)
-	if c.GetBool("limit-once") {
+	if c.GetBool("limit-once-" + key) {
 		return limiterObj.Peek(c, key)
 	} else {
-		c.Set("limit-once", true)
+		c.Set("limit-once-"+key, true)
 		return limiterObj.Get(c, key)
 	}
 }

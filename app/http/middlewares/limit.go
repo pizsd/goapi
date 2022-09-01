@@ -22,6 +22,20 @@ func LimitIP(limit string) gin.HandlerFunc {
 	}
 }
 
+func LimitPerRoute(limit string) gin.HandlerFunc {
+	if !app.IsProd() {
+		limit = "100-H"
+	}
+	return func(c *gin.Context) {
+		key := limiter.GetRouteWithIP(c)
+		logger.DebugString("limit", "key", key)
+		if ok := limitHandler(c, key, limit); !ok {
+			return
+		}
+		c.Next()
+	}
+}
+
 func limitHandler(c *gin.Context, key, limit string) bool {
 	rate, err := limiter.CheckRate(c, key, limit)
 	if err != nil {
@@ -34,7 +48,7 @@ func limitHandler(c *gin.Context, key, limit string) bool {
 	// X-RateLimit-Remaining :9993 剩余的访问次数
 	// X-RateLimit-Reset :1513784506 到该时间点，访问次数会重置为 X-RateLimit-Limit
 	c.Header("X-RateLimit-Limit", cast.ToString(rate.Limit))
-	c.Header("X-RateLimit-Remaining", cast.ToString(rate.Limit))
+	c.Header("X-RateLimit-Remaining", cast.ToString(rate.Remaining))
 	c.Header("X-RateLimit-Reset", cast.ToString(rate.Reset))
 	if rate.Reached {
 		response.Abort429(c)

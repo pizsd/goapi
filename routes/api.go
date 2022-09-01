@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"goapi/app/http/controllers/api/v1/auth"
+	"goapi/app/http/middlewares"
 	"net/http"
 )
 
@@ -13,8 +14,8 @@ func RegisterApiRoutes(r *gin.Engine) {
 		})
 	})
 	v1 := r.Group("/v1")
+	v1.Use(middlewares.LimitIP("1000-H"))
 	{
-
 		authGroup := v1.Group("/auth")
 		{
 			sc := new(auth.SignupController)
@@ -24,15 +25,15 @@ func RegisterApiRoutes(r *gin.Engine) {
 			authGroup.POST("/signup/using-email", sc.SignupUsingEmail)
 			vcc := new(auth.VerifyCodeController)
 			authGroup.POST("/verify-code/captcha", vcc.ShowCaptcha)
-			authGroup.POST("/verify-code/phone", vcc.SendSmsCode)
-			authGroup.POST("verify-code/email", vcc.SendEmailCode)
+			authGroup.POST("/verify-code/phone", middlewares.LimitPerRoute("5-H"), vcc.SendSmsCode)
+			authGroup.POST("verify-code/email", middlewares.LimitPerRoute("5-H"), vcc.SendEmailCode)
 			lc := new(auth.LoginController)
 			authGroup.POST("/login/using-phone", lc.LoginByPhone)
 			authGroup.POST("/login/using-multi", lc.LoginByMulti)
-			authGroup.POST("/login/refresh-token", lc.RefreshToken)
+			authGroup.POST("/login/refresh-token", middlewares.AuthJwt(), lc.RefreshToken)
 			pc := new(auth.PasswordController)
-			authGroup.POST("/password/using-phone", pc.PasswordResetByPhone)
-			authGroup.POST("/password/using-email", pc.PasswordResetByEmail)
+			authGroup.POST("/password-reset/using-phone", middlewares.AuthJwt(), pc.PasswordResetByPhone)
+			authGroup.POST("/password-reset/using-email", middlewares.AuthJwt(), pc.PasswordResetByEmail)
 		}
 	}
 }
