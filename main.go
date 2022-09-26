@@ -16,6 +16,7 @@ func init() {
 	// 这里可能是显式的调用，可能是可读性更好
 	btsConfig.Initialize()
 }
+
 func main() {
 	var rootCmd = &cobra.Command{
 		Use:   "GoApi",
