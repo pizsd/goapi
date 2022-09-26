@@ -1,13 +1,14 @@
 package main
 
 import (
-	"flag"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
+	"goapi/app/cmd"
 	"goapi/bootstrap"
 	btsConfig "goapi/config"
 	"goapi/pkg/config"
-	"goapi/pkg/helpers"
+	"goapi/pkg/console"
+	"os"
 )
 
 func init() {
@@ -16,19 +17,34 @@ func init() {
 	btsConfig.Initialize()
 }
 func main() {
-	var env string
-	flag.StringVar(&env, "env", "", "加载 .env 文件，如 --env=testing 加载的是 .env.testing 文件")
-	flag.Parse()
-	config.InitConfig(env)
-	gin.SetMode(gin.ReleaseMode)
-	engine := gin.New()
-	bootstrap.SetupLogger()
-	bootstrap.SetupDB()
-	bootstrap.SetupRedis()
-	bootstrap.SetupRoute(engine)
-	helpers.RandomNumber(6)
-	err := engine.Run(":" + config.Get("app.port"))
-	if err != nil {
-		fmt.Println(err.Error())
+	var rootCmd = &cobra.Command{
+		Use:   "GoApi",
+		Short: "A simple api project",
+		Long:  `Default will run "serve" command, you can use "-h" flag to see all subcommands`,
+		PersistentPreRun: func(command *cobra.Command, args []string) {
+			// 配置初始化，依赖命令行 --env 参数
+			config.InitConfig(cmd.Env)
+			// 初始化 Logger
+			bootstrap.SetupLogger()
+			// 初始化数据库
+			bootstrap.SetupDB()
+			// 初始化 Redis
+			bootstrap.SetupRedis()
+		},
+	}
+
+	// 注册子命令
+	rootCmd.AddCommand(
+		cmd.CmdServe,
+	)
+
+	// 配置默认运行 Web 服务
+	cmd.RegisterDefaultCmd(rootCmd, cmd.CmdServe)
+
+	// 注册全局参数，--env
+	cmd.RegisterGlobalFlags(rootCmd)
+
+	if err := rootCmd.Execute(); err != nil {
+		console.Exit(fmt.Sprintf("Failed to run app with %v: %s", os.Args, err.Error()))
 	}
 }
