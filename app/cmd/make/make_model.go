@@ -1,9 +1,9 @@
 package make
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"os"
+	"path/filepath"
 )
 
 var CmdMakeModel = &cobra.Command{
@@ -17,7 +17,7 @@ func runMakeModel(cmd *cobra.Command, args []string) {
 	// 格式化模型名称，返回一个 Model 对象
 	model := makeModelFromString(args[0])
 
-	dir := fmt.Sprintf("app/models/" + model.PackageName + "/")
+	dir := filepath.Join("app/models/", model.PackageName, "/")
 
 	// os.MkdirAll 会确保父目录和子目录都会创建，第二个参数是目录权限，使用 0777
 	os.MkdirAll(dir, os.ModePerm)

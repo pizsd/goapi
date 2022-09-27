@@ -1,9 +1,9 @@
 package make
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"goapi/pkg/console"
+	"path/filepath"
 )
 
 var CmdMakeCMD = &cobra.Command{
@@ -15,7 +15,7 @@ var CmdMakeCMD = &cobra.Command{
 
 func runMakeCMD(cmd *cobra.Command, args []string) {
 	model := makeModelFromString(args[0])
-	filePath := fmt.Sprintf("app/cmd/%s.go", model.PackageName)
+	filePath := filepath.Join("app/cmd/", model.PackageName+".go")
 	createFileFromStub(filePath, "cmd", model)
 	// 友好提示
 	console.Success("command name:" + model.PackageName)
