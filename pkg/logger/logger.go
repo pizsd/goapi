@@ -31,7 +31,6 @@ func getLogWriter(filename string, maxSize, maxBackup, maxAge int, compress bool
 		logname := time.Now().Format("2006-01-02.log")
 		filename = strings.ReplaceAll(filename, "logs.log", logname)
 	}
-	fmt.Printf("file:%s", filename)
 	lumberJackLogger := &lumberjack.Logger{
 		Filename:   filename,
 		MaxSize:    maxSize,
