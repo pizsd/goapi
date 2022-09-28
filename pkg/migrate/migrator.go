@@ -36,7 +36,7 @@ func NewMigrator() *Migrator {
 
 func (migrator *Migrator) Up() {
 	// 读取所有迁移文件，确保按照时间排序
-	migrationFiles := migrator.readAllMigrationFiles()
+	mgFiles := migrator.readAllMigrationFiles()
 
 	// 获取当前批次的值
 	batch := migrator.getBatch()
@@ -48,7 +48,7 @@ func (migrator *Migrator) Up() {
 	// 可以通过此值来判断数据库是否已是最新
 	runed := false
 
-	for _, mfile := range migrationFiles {
+	for _, mfile := range mgFiles {
 		if mfile.isNotMigrated(migrations) {
 			migrator.runUpMigration(mfile, batch)
 			runed = true
@@ -62,15 +62,15 @@ func (migrator *Migrator) Up() {
 func (migrator *Migrator) readAllMigrationFiles() []MigrationFile {
 	files, err := os.ReadDir(migrator.Folder)
 	console.ExitIf(err)
-	var migrateFiles []MigrationFile
+	var mgFiles []MigrationFile
 	for _, f := range files {
 		fileName := file.FileNameWithoutExtension(f.Name())
 		mfile := getMigrationFile(fileName)
 		if len(mfile.FileName) > 0 {
-			migrationFiles = append(migrateFiles, mfile)
+			mgFiles = append(mgFiles, mfile)
 		}
 	}
-	return migrationFiles
+	return mgFiles
 }
 
 func (migrator *Migrator) createMigrationsTable() {

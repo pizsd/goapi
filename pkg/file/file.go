@@ -2,7 +2,7 @@ package file
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"strings"
 )
 
@@ -21,6 +21,6 @@ func Put(content []byte, filepath string) error {
 }
 
 func FileNameWithoutExtension(name string) string {
-	ext := path.Ext(name)
+	ext := filepath.Ext(name)
 	return strings.TrimSuffix(name, ext)
 }

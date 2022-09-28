@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"goapi/pkg/database/migrations"
+	_ "goapi/database/migrations" // 为了执行migrations下的所有迁移文件的init
 	"goapi/pkg/migrate"
 )
 
@@ -23,8 +23,6 @@ func init() {
 	)
 }
 func migrator() *migrate.Migrator {
-	// 注册 database/migrations 下的所有迁移文件
-	migrations.Initialize()
 	// 初始化 migrator
 	return migrate.NewMigrator()
 }
