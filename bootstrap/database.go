@@ -3,7 +3,6 @@ package bootstrap
 import (
 	"errors"
 	"fmt"
-	"goapi/app/models/user"
 	"goapi/pkg/config"
 	"goapi/pkg/database"
 	"goapi/pkg/logger"
@@ -39,5 +38,6 @@ func SetupDB() {
 	database.SQLDB.SetMaxOpenConns(config.GetInt("database.mysql.max_open_connections"))
 	database.SQLDB.SetMaxIdleConns(config.GetInt("database.mysql.max_idle_connections"))
 	database.SQLDB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
-	database.DB.AutoMigrate(&user.User{})
+	// 不自动执行，使用migrate命令执行迁移
+	// database.DB.AutoMigrate(&user.User{})
 }
