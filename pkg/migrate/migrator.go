@@ -41,7 +41,7 @@ func (migrator *Migrator) Up() {
 	// 获取当前批次的值
 	batch := migrator.getBatch()
 
-	migrations := []Migration{}
+	var migrations []Migration
 
 	migrator.DB.Find(&migrations)
 
@@ -60,15 +60,51 @@ func (migrator *Migrator) Up() {
 }
 
 func (migrator *Migrator) Down() {
-	lastMigration := Migration{}
+	var lastMigration = Migration{}
 	migrator.DB.Order("id DESC").First(&lastMigration)
-	migrations := []Migration{}
+	var migrations []Migration
 	migrator.DB.Where("batch = ?", lastMigration.Batch).Find(&migrations)
 
 	// 回滚最后一批次的迁移
 	if !migrator.runRollbackMigration(migrations) {
 		console.Success("[migrations] table is empty, nothing to rollback.")
 	}
+}
+
+func (migrator *Migrator) Reset() {
+	var migrations []Migration
+	migrator.DB.Order("id DESC").Find(&migrations)
+
+	// 回滚最后一批次的迁移
+	if !migrator.runRollbackMigration(migrations) {
+		console.Success("[migrations] table is empty, nothing to rollback.")
+	}
+}
+
+func (migrator *Migrator) Refresh() {
+	// 回滚所有迁移
+	migrator.Reset()
+
+	// 执行所有迁移
+	migrator.Up()
+}
+
+func (migrator *Migrator) Fresh() {
+	// 获取数据库名称，用以提示
+	dbname := database.CurrentDatabase()
+
+	// 删除所有表
+	err := database.DeleteAllTables()
+
+	console.ExitIf(err)
+	console.Success("cleanup database " + dbname)
+
+	// 重新创建 migrates 表
+	migrator.createMigrationsTable()
+	console.Success("[migrations] table created.")
+
+	// 重新调用 up 命令
+	migrator.Up()
 }
 
 func (migrator *Migrator) readAllMigrationFiles() []MigrationFile {
@@ -86,9 +122,10 @@ func (migrator *Migrator) readAllMigrationFiles() []MigrationFile {
 }
 
 func (migrator *Migrator) createMigrationsTable() {
-	migration := Migration{}
+	var migration = Migration{}
 	if !migrator.Migrator.HasTable(&migration) {
-		migrator.Migrator.CreateTable(&migration)
+		err := migrator.Migrator.CreateTable(&migration)
+		console.ExitIf(err)
 	}
 }
 
