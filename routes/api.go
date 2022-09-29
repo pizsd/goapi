@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	controllers "goapi/app/http/controllers/api/v1"
 	"goapi/app/http/controllers/api/v1/auth"
 	"goapi/app/http/middlewares"
 	"net/http"
@@ -35,5 +36,10 @@ func RegisterApiRoutes(r *gin.Engine) {
 			authGroup.POST("/password-reset/using-phone", middlewares.AuthJwt(), pc.PasswordResetByPhone)
 			authGroup.POST("/password-reset/using-email", middlewares.AuthJwt(), pc.PasswordResetByEmail)
 		}
+		uc := new(controllers.UsersController)
+		// 获取当前用户
+		v1.GET("/user", middlewares.AuthJwt(), uc.CurrentUser)
+		userGroup := v1.Group("/user")
+		userGroup.Use(middlewares.AuthJwt())
 	}
 }

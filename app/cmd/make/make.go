@@ -49,6 +49,7 @@ type Model struct {
 	VariableName       string
 	VariableNamePlural string
 	PackageName        string
+	LowerStructName    string
 }
 
 //go:embed stubs
@@ -74,6 +75,7 @@ func init() {
 func makeModelFromString(name string) Model {
 	model := Model{}
 	model.StructName = str.Singular(strcase.ToCamel(name))
+	model.LowerStructName = str.Singular(strings.ToLower(name))
 	model.StructNamePlural = str.Plural(model.StructName)
 	model.TableName = str.Snake(model.StructNamePlural)
 	model.VariableName = str.LowerCamel(model.StructName)

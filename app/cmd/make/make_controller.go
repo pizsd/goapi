@@ -38,6 +38,6 @@ func runMakeController(cmd *cobra.Command, args []string) {
 	}
 	model := makeModelFromString(name)
 	version["{{Version}}"] = apiVersion
-	createFileFromStub(filepath.Join(dir, model.TableName+"_controller.go"), "controller", model, version)
+	createFileFromStub(filepath.Join(dir, model.LowerStructName+"_controller.go"), "controller", model, version)
 
 }

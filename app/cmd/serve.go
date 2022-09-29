@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 	"goapi/bootstrap"
@@ -17,12 +18,14 @@ var CmdServe = &cobra.Command{
 }
 
 func runWeb(cmd *cobra.Command, args []string) {
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	engine := gin.New()
 	bootstrap.SetupRoute(engine)
-	err := engine.Run(":" + config.Get("app.port"))
+	port := config.Get("app.port")
+	err := engine.Run(":" + port)
 	if err != nil {
 		logger.ErrorString("CMD", "serve", err.Error())
 		console.Exit("Unable to start server, error:" + err.Error())
 	}
+	console.Success(fmt.Sprintf("%s is running at http://localhost:/%s . Press Ctrl+C to stop.", config.Get("app.name"), port))
 }
