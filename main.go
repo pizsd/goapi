@@ -43,6 +43,7 @@ func main() {
 		make.CmdMake,
 		make.CmdMakeCMD,
 		cmd.CmdMigrate,
+		cmd.CmdSeed,
 	)
 
 	// 配置默认运行 Web 服务

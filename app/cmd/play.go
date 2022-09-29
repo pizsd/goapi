@@ -3,8 +3,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"path"
-	"strings"
 )
 
 var CmdPlay = &cobra.Command{
@@ -15,7 +13,13 @@ var CmdPlay = &cobra.Command{
 
 func runPlay(cmd *cobra.Command, args []string) {
 	// 测试代码
-	ext := path.Ext("routes/api.go")
-	name := strings.TrimSuffix("api.go", ext)
-	fmt.Println(name)
+	m := make(map[string]string)
+	// 最后给已声明的map赋值
+	m["haha"] = "haha"
+	m["hehe"] = "hehe"
+	m["huhu"] = "valhu"
+
+	if v, ok := m["huhu"]; ok {
+		fmt.Println(v, ok)
+	}
 }
