@@ -59,6 +59,18 @@ func (migrator *Migrator) Up() {
 	}
 }
 
+func (migrator *Migrator) Down() {
+	lastMigration := Migration{}
+	migrator.DB.Order("id DESC").First(&lastMigration)
+	migrations := []Migration{}
+	migrator.DB.Where("batch = ?", lastMigration.Batch).Find(&migrations)
+
+	// 回滚最后一批次的迁移
+	if !migrator.runRollbackMigration(migrations) {
+		console.Success("[migrations] table is empty, nothing to rollback.")
+	}
+}
+
 func (migrator *Migrator) readAllMigrationFiles() []MigrationFile {
 	files, err := os.ReadDir(migrator.Folder)
 	console.ExitIf(err)
@@ -100,6 +112,24 @@ func (migrator *Migrator) runUpMigration(m MigrationFile, batch int) {
 	// 执行完保存执行记录到migrations
 	err := migrator.DB.Create(&Migration{Migration: m.FileName, Batch: batch}).Error
 	console.ExitIf(err)
+}
+
+func (migrator *Migrator) runRollbackMigration(migrations []Migration) bool {
+	ran := false
+	for _, mg := range migrations {
+		// 友好提示
+		console.Warning("rollback " + mg.Migration)
+		mf := getMigrationFile(mg.Migration)
+		if mf.Down != nil {
+			mf.Down(database.DB.Migrator(), database.SQLDB)
+		}
+		ran = true
+		// 回退成功了就删除掉这条记录
+		migrator.DB.Delete(&mg)
+
+		console.Success("finish " + mf.FileName)
+	}
+	return ran
 }
 
 func getMigrationFile(name string) MigrationFile {
