@@ -12,8 +12,16 @@ type CategoriesController struct {
 }
 
 func (ctrl *CategoriesController) Index(c *gin.Context) {
-	categories := category.All()
-	response.Data(c, categories)
+	request := requests.PaginationRequest{}
+
+	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+		return
+	}
+	data, pager := category.Paginate(c, 10)
+	response.Data(c, gin.H{
+		"list":  data,
+		"pager": pager,
+	})
 }
 
 func (ctrl *CategoriesController) Show(c *gin.Context) {
@@ -44,30 +52,21 @@ func (ctrl *CategoriesController) Store(c *gin.Context) {
 	}
 }
 
-/*func (ctrl *CategoriesController) Update(c *gin.Context) {
+func (ctrl *CategoriesController) Update(c *gin.Context) {
 
 	categoryModel := category.Get(c.Param("id"))
 	if categoryModel.ID == 0 {
-		response.Abort404(c)
-		return
-	}
-
-	if ok := policies.CanModifyCategory(c, categoryModel); !ok {
-		response.Abort403(c)
+		response.Abort404(c, "分类不存在")
 		return
 	}
 
 	request := requests.CategoryRequest{}
-	bindOk, errs := requests.Validate(c, &request, requests.CategorySave)
-	if !bindOk {
-		return
-	}
-	if len(errs) > 0 {
-		response.ValidationError(c, errs)
+	if ok := requests.Validate(c, &request, requests.CategorySave); !ok {
 		return
 	}
 
-	categoryModel.FieldName = request.FieldName
+	categoryModel.Name = request.Name
+	categoryModel.Description = request.Description
 	rowsAffected := categoryModel.Save()
 	if rowsAffected > 0 {
 		response.Data(c, categoryModel)
@@ -76,7 +75,7 @@ func (ctrl *CategoriesController) Store(c *gin.Context) {
 	}
 }
 
-func (ctrl *CategoriesController) Delete(c *gin.Context) {
+/*func (ctrl *CategoriesController) Delete(c *gin.Context) {
 
 	categoryModel := category.Get(c.Param("id"))
 	if categoryModel.ID == 0 {

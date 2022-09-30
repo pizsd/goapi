@@ -49,7 +49,9 @@ func RegisterApiRoutes(r *gin.Engine) {
 		cc := new(controllers.CategoriesController)
 		cateGroup := v1.Group("/categories", middlewares.AuthJwt())
 		{
+			cateGroup.GET("", cc.Index)
 			cateGroup.POST("", cc.Store)
+			cateGroup.PUT("/:id", cc.Update)
 		}
 	}
 }

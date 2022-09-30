@@ -31,9 +31,9 @@ func (ctrl *UsersController) Index(c *gin.Context) {
 
 func (ctrl *UsersController) Show(c *gin.Context) {
 	userModel := user.Find(c.Param("id"))
-	if userModel.ID > 0 {
-		response.Data(c, userModel)
+	if userModel.ID == 0 {
+		response.Abort404(c, "用户不存在或已删除")
 		return
 	}
-	response.Abort404(c, "用户不存在或已删除")
+	response.Data(c, userModel)
 }
