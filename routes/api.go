@@ -37,9 +37,19 @@ func RegisterApiRoutes(r *gin.Engine) {
 			authGroup.POST("/password-reset/using-email", middlewares.AuthJwt(), pc.PasswordResetByEmail)
 		}
 		uc := new(controllers.UsersController)
+
 		// 获取当前用户
 		v1.GET("/user", middlewares.AuthJwt(), uc.CurrentUser)
-		userGroup := v1.Group("/user").Use(middlewares.AuthJwt())
-		userGroup.GET("users", uc.Index)
+		userGroup := v1.Group("/users").Use(middlewares.AuthJwt())
+		{
+			userGroup.GET("", uc.Index)
+			userGroup.GET("/:id", uc.Show)
+		}
+
+		cc := new(controllers.CategoriesController)
+		cateGroup := v1.Group("/categories", middlewares.AuthJwt())
+		{
+			cateGroup.POST("", cc.Store)
+		}
 	}
 }

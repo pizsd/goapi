@@ -28,3 +28,12 @@ func (ctrl *UsersController) Index(c *gin.Context) {
 		"pager": pager,
 	})
 }
+
+func (ctrl *UsersController) Show(c *gin.Context) {
+	userModel := user.Find(c.Param("id"))
+	if userModel.ID > 0 {
+		response.Data(c, userModel)
+		return
+	}
+	response.Abort404(c, "用户不存在或已删除")
+}
