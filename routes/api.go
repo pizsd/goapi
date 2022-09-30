@@ -39,7 +39,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 		uc := new(controllers.UsersController)
 		// 获取当前用户
 		v1.GET("/user", middlewares.AuthJwt(), uc.CurrentUser)
-		userGroup := v1.Group("/user")
-		userGroup.Use(middlewares.AuthJwt())
+		userGroup := v1.Group("/user").Use(middlewares.AuthJwt())
+		userGroup.GET("users", uc.Index)
 	}
 }
