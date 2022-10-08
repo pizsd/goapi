@@ -75,16 +75,10 @@ func (ctrl *CategoriesController) Update(c *gin.Context) {
 	}
 }
 
-/*func (ctrl *CategoriesController) Delete(c *gin.Context) {
-
+func (ctrl *CategoriesController) Delete(c *gin.Context) {
 	categoryModel := category.Get(c.Param("id"))
 	if categoryModel.ID == 0 {
-		response.Abort404(c)
-		return
-	}
-
-	if ok := policies.CanModifyCategory(c, categoryModel); !ok {
-		response.Abort403(c)
+		response.Abort404(c, "分类不存在")
 		return
 	}
 
@@ -95,4 +89,4 @@ func (ctrl *CategoriesController) Update(c *gin.Context) {
 	}
 
 	response.Abort500(c, "删除失败，请稍后尝试~")
-}*/
+}

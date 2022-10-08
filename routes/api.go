@@ -52,6 +52,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 			cateGroup.GET("", cc.Index)
 			cateGroup.POST("", cc.Store)
 			cateGroup.PUT("/:id", cc.Update)
+			cateGroup.DELETE("/:id", cc.Delete)
 		}
 	}
 }
