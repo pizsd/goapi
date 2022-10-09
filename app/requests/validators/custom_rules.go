@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/thedevsaddam/govalidator"
 	"goapi/pkg/database"
+	"goapi/pkg/logger"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -61,6 +62,26 @@ func init() {
 				return errors.New(message)
 			}
 			return fmt.Errorf("名称长度不能超过 %d 个字", max)
+		}
+		return nil
+	})
+
+	govalidator.AddCustomRule("exists", func(field string, rule string, message string, value interface{}) error {
+		s := strings.Split(strings.TrimPrefix(rule, "exists:"), ",")
+		tableName := s[0]
+		tableField := s[1]
+		reqValue := value.(string)
+		var count int64
+		logger.DebugString("validator", "tableField", tableField)
+		logger.DebugString("validator", "reqValue", reqValue)
+		database.DB.Table(tableName).Where(tableField+" = ?", reqValue).Count(&count)
+		if count == 0 {
+			if message != "" {
+				return errors.New(message)
+			} else {
+				logger.DebugString("validator", "reqValue", "111")
+				return fmt.Errorf("%v 不存在", reqValue)
+			}
 		}
 		return nil
 	})

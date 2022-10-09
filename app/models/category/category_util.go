@@ -13,7 +13,7 @@ func Get(idstr string) (category Category) {
 }
 
 func GetBy(field, value string) (category Category) {
-	database.DB.Where("? = ?", field, value).First(&category)
+	database.DB.Where(field+" = ?", value).First(&category)
 	return
 }
 

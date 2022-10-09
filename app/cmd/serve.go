@@ -27,5 +27,5 @@ func runWeb(cmd *cobra.Command, args []string) {
 		logger.ErrorString("CMD", "serve", err.Error())
 		console.Exit("Unable to start server, error:" + err.Error())
 	}
-	console.Success(fmt.Sprintf("%s is running at http://localhost:/%s . Press Ctrl+C to stop.", config.Get("app.name"), port))
+	console.Success(fmt.Sprintf("%s is running at http://localhost:%s/ . Press Ctrl+C to stop.", config.Get("app.name"), port))
 }

@@ -134,7 +134,7 @@ func (migrator *Migrator) getBatch() int {
 	var lastMigration = Migration{}
 	migrator.DB.Order("id DESC").First(&lastMigration)
 	if lastMigration.Batch > 0 {
-		return lastMigration.Batch
+		return lastMigration.Batch + 1
 	}
 	return batch
 }

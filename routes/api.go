@@ -54,5 +54,12 @@ func RegisterApiRoutes(r *gin.Engine) {
 			cateGroup.PUT("/:id", cc.Update)
 			cateGroup.DELETE("/:id", cc.Delete)
 		}
+
+		tc := new(controllers.TopicsController)
+		topicGroup := v1.Group("/topics", middlewares.AuthJwt())
+		{
+			topicGroup.GET("", tc.Index)
+			topicGroup.POST("", tc.Store)
+		}
 	}
 }

@@ -61,9 +61,13 @@ func getEncoder() zapcore.Encoder {
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 	if app.IsLocal() {
+		// CapitalColorLevelEncoder将一个Level序列化为一个全大写的字符串并添加颜色。例如，InfoLevel被序列化为 "INFO "并被染成蓝色。
+		// 因为颜色是不被文本文件识别的，所以在local环境中，日志文件会出现不被识别的特殊字符
 		encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+		// 而且在local环境中，创建的的是控制台解码器
 		return zapcore.NewConsoleEncoder(encoderConfig)
 	}
+	// 其他环境，返回json解码器，日志也是记录的json
 	return zapcore.NewJSONEncoder(encoderConfig)
 }
 
