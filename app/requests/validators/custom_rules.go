@@ -72,8 +72,6 @@ func init() {
 		tableField := s[1]
 		reqValue := value.(string)
 		var count int64
-		logger.DebugString("validator", "tableField", tableField)
-		logger.DebugString("validator", "reqValue", reqValue)
 		database.DB.Table(tableName).Where(tableField+" = ?", reqValue).Count(&count)
 		if count == 0 {
 			if message != "" {
