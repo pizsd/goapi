@@ -16,6 +16,9 @@ const (
 
 // UnmarshalJSON implements json unmarshal interface.
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
+	if string(data) == "null" {
+		return nil
+	}
 	now, err := time.ParseInLocation(`"`+timeFormart+`"`, string(data), time.Local)
 	*t = Time(now)
 	return
@@ -23,9 +26,13 @@ func (t *Time) UnmarshalJSON(data []byte) (err error) {
 
 // MarshalJSON implements json marshal interface.
 func (t Time) MarshalJSON() ([]byte, error) {
+	tt := time.Time(t)
+	if tt.IsZero() {
+		return []byte("null"), nil
+	}
 	b := make([]byte, 0, len(timeFormart)+2)
 	b = append(b, '"')
-	b = time.Time(t).AppendFormat(b, timeFormart)
+	b = tt.AppendFormat(b, timeFormart)
 	b = append(b, '"')
 	return b, nil
 }
