@@ -77,24 +77,24 @@ func (ctrl *TopicsController) Update(c *gin.Context) {
 	}
 }
 
-/*func (ctrl *TopicsController) Delete(c *gin.Context) {
+func (ctrl *TopicsController) Delete(c *gin.Context) {
 
-    topicModel := topic.Get(c.Param("id"))
-    if topicModel.ID == 0 {
-        response.Abort404(c)
-        return
-    }
+	topicModel := topic.Get(c.Param("id"))
+	if topicModel.ID == 0 {
+		response.Abort404(c, "资源未找到")
+		return
+	}
 
-    if ok := policies.CanModifyTopic(c, topicModel); !ok {
-        response.Abort403(c)
-        return
-    }
+	if ok := policies.CanModifyTopic(c, topicModel); !ok {
+		response.Abort403(c, "无权限操作")
+		return
+	}
 
-    rowsAffected := topicModel.Delete()
-    if rowsAffected > 0 {
-        response.Success(c)
-        return
-    }
+	rowsAffected := topicModel.Delete()
+	if rowsAffected > 0 {
+		response.Success(c)
+		return
+	}
 
-    response.Abort500(c, "删除失败，请稍后尝试~")
-}*/
+	response.Abort500(c, "删除失败，请稍后尝试~")
+}
