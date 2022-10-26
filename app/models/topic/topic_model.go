@@ -16,8 +16,8 @@ type Topic struct {
 	UserID     int64  `json:"user_id,omitempty"`
 	CategoryID int64  `json:"category_id,omitempty"`
 
-	User     user.User         `json:"user,omitempty"`
-	Category category.Category `json:"category,omitempty"`
+	User     *user.User         `json:"user,omitempty"`
+	Category *category.Category `json:"category,omitempty"`
 
 	models.CommonTimestampsField
 }

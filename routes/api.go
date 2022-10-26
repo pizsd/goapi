@@ -56,7 +56,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 		}
 
 		tc := new(controllers.TopicsController)
-		topicGroup := v1.Group("/topics", middlewares.AuthJwt())
+		topicGroup := v1.Group("/topics").Use(middlewares.AuthJwt())
 		{
 			topicGroup.GET("", tc.Index)
 			topicGroup.POST("", tc.Store)

@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
 	"goapi/app/models/user"
 )
 
@@ -30,6 +31,7 @@ func User(c *gin.Context) user.User {
 	return userModel
 }
 
-func Uid(c *gin.Context) string {
-	return c.GetString("uid")
+func Uid(c *gin.Context) int64 {
+	uidStr := c.GetString("uid")
+	return cast.ToInt64(uidStr)
 }

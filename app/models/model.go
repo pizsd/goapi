@@ -9,8 +9,8 @@ type BaseModel struct {
 	ID int64 `gorm:"column:id;primaryKey;autoIncrement;" json:"id,omitempty"`
 }
 type CommonTimestampsField struct {
-	CreatedAt types.Time `gorm:"column:created_at;index;" json:"created_at,omitempty"`
-	UpdatedAt types.Time `gorm:"column:updated_at;index;" json:"updated_at,omitempty"`
+	CreatedAt *types.Time `gorm:"column:created_at;index;" json:"created_at,omitempty"`
+	UpdatedAt *types.Time `gorm:"column:updated_at;index;" json:"updated_at,omitempty"`
 	//DeletedAt time.Time `gorm:"column:deleted_at;index;"json:"deleted_at,omitempty"`
 }
 

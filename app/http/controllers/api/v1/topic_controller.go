@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/gin-gonic/gin"
 	"goapi/app/models/topic"
+	"goapi/app/policies"
 	"goapi/app/requests"
 	"goapi/pkg/auth"
 	"goapi/pkg/response"
@@ -60,7 +61,10 @@ func (ctrl *TopicsController) Update(c *gin.Context) {
 	if ok := requests.Validate(c, &request, requests.TopicSave); !ok {
 		return
 	}
-
+	if !policies.CanModifyTopic(c, topicModel) {
+		response.Abort403(c, "无权限操作")
+		return
+	}
 	cid, _ := strconv.ParseInt(request.CategoryID, 10, 64)
 	topicModel.Title = request.Title
 	topicModel.Content = request.Content
