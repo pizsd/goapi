@@ -22,7 +22,7 @@ func (ctrl *TopicsController) Index(c *gin.Context) {
 func (ctrl *TopicsController) Show(c *gin.Context) {
 	topicModel := topic.Get(c.Param("id"))
 	if topicModel.ID == 0 {
-		response.Abort404(c)
+		response.Abort404(c, "话题不存在")
 		return
 	}
 	response.Data(c, topicModel)

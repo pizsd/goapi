@@ -39,28 +39,28 @@ func CreatedJosn(c *gin.Context, data interface{}) {
 func Abort404(c *gin.Context, msg ...string) {
 	c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
 		"code":    http.StatusNotFound,
-		"message": defaultMessage("404 Not found", msg...),
+		"message": defaultMessage("Not found", msg...),
 	})
 }
 
 func Abort403(c *gin.Context, msg ...string) {
 	c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
 		"code":    http.StatusForbidden,
-		"message": defaultMessage("403 Forbidden", msg...),
+		"message": defaultMessage("Forbidden", msg...),
 	})
 }
 
 func Abort500(c *gin.Context, msg ...string) {
 	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 		"code":    http.StatusInternalServerError,
-		"message": defaultMessage("500 Server error", msg...),
+		"message": defaultMessage("Server error", msg...),
 	})
 }
 
 func Abort429(c *gin.Context, msg ...string) {
 	c.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{
 		"code":    http.StatusTooManyRequests,
-		"message": defaultMessage("429 Requests too many", msg...),
+		"message": defaultMessage("Requests too many", msg...),
 	})
 }
 
@@ -68,7 +68,7 @@ func BadRequest(c *gin.Context, err error, msg ...string) {
 	logger.LogIf(err)
 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 		"code":    http.StatusBadRequest,
-		"message": defaultMessage("400 Bad request", msg...),
+		"message": defaultMessage("Bad request", msg...),
 		"errors":  err.Error(),
 	})
 }
@@ -89,7 +89,7 @@ func Error(c *gin.Context, err error, msg ...string) {
 func Unauthorized(c *gin.Context, msg ...string) {
 	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 		"code":    http.StatusUnauthorized,
-		"message": defaultMessage("401 Unauthorized", msg...),
+		"message": defaultMessage("Unauthorized", msg...),
 	})
 }
 

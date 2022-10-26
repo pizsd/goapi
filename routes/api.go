@@ -62,6 +62,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 			topicGroup.POST("", tc.Store)
 			topicGroup.PUT("/:id", tc.Update)
 			topicGroup.DELETE("/:id", tc.Delete)
+			topicGroup.GET("/:id", tc.Show)
 		}
 	}
 }
