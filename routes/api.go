@@ -64,5 +64,14 @@ func RegisterApiRoutes(r *gin.Engine) {
 			topicGroup.DELETE("/:id", tc.Delete)
 			topicGroup.GET("/:id", tc.Show)
 		}
+		lc := new(controllers.LinksController)
+		linkGroup := v1.Group("links").Use(middlewares.AuthJwt())
+		{
+			linkGroup.GET("", lc.Index)
+			linkGroup.POST("", lc.Store)
+			linkGroup.PUT("/:id", lc.Update)
+			linkGroup.DELETE("/:id", lc.Delete)
+			linkGroup.GET("/:id", lc.Show)
+		}
 	}
 }
