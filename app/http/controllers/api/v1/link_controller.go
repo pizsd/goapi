@@ -4,9 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"goapi/app/models/link"
 	"goapi/app/requests"
-	"goapi/pkg/cache"
 	"goapi/pkg/response"
-	"time"
 )
 
 type LinksController struct {
@@ -14,14 +12,7 @@ type LinksController struct {
 }
 
 func (ctrl *LinksController) Index(c *gin.Context) {
-	var links []link.Link
-	if cache.Has("links") {
-		cache.GetObject("links", &links)
-	} else {
-		links = link.All()
-		cache.Set("links", links, time.Second*60)
-	}
-	response.Data(c, links)
+	response.Data(c, link.AllCached())
 }
 
 func (ctrl *LinksController) Show(c *gin.Context) {

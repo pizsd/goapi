@@ -3,8 +3,11 @@ package link
 import (
 	"github.com/gin-gonic/gin"
 	"goapi/pkg/app"
+	"goapi/pkg/cache"
 	"goapi/pkg/database"
+	"goapi/pkg/helpers"
 	"goapi/pkg/paginator"
+	"time"
 )
 
 func Get(idstr string) (link Link) {
@@ -19,6 +22,21 @@ func GetBy(field, value string) (link Link) {
 
 func All() (links []Link) {
 	database.DB.Find(&links)
+	return
+}
+
+func AllCached() (links []Link) {
+	key := "links:all"
+	expireTime := time.Second * 60
+	cache.GetObject(key, &links)
+
+	if helpers.Empty(links) {
+		links = All()
+		if helpers.Empty(links) {
+			return
+		}
+		cache.Set(key, links, expireTime)
+	}
 	return
 }
 
