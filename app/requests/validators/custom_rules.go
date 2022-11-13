@@ -16,12 +16,12 @@ func init() {
 		ruleSlice := strings.Split(strings.TrimPrefix(rule, "not_exists:"), ",")
 		tableName := ruleSlice[0]
 		tableField := ruleSlice[1]
+		// 如果参数为三个，则第三个参数为忽略id为exceptId的数据
 		var exceptId string
 		if len(ruleSlice) > 2 {
 			exceptId = ruleSlice[2]
 		}
 		requestValue := value.(string)
-
 		query := database.DB.Table(tableName).Where(tableField+"= ?", requestValue)
 		if exceptId != "" {
 			query.Where("id <> ?", exceptId)

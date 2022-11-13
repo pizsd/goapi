@@ -37,3 +37,21 @@ func (ctrl *UsersController) Show(c *gin.Context) {
 	}
 	response.Data(c, userModel)
 }
+
+func (ctrl *UsersController) UpdateProfile(c *gin.Context) {
+	request := requests.UserUpdateProfileRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdateProfile); !ok {
+		return
+	}
+	userModel := auth.User(c)
+
+	userModel.Name = request.Name
+	userModel.City = request.City
+	userModel.Introduction = request.Introduction
+	rowsAffected := userModel.Save()
+	if rowsAffected > 0 {
+		response.Data(c, userModel)
+	} else {
+		response.Abort500(c, "更新失败，请稍后尝试~")
+	}
+}

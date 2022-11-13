@@ -3,6 +3,7 @@ package make
 import (
 	"github.com/spf13/cobra"
 	"goapi/pkg/app"
+	"goapi/pkg/console"
 	"path/filepath"
 )
 
@@ -21,4 +22,6 @@ func runMakeMigration(cmd *cobra.Command, args []string) {
 	fileName := timeStr + "_" + model.PackageName
 	path := filepath.Join("database/migrations", fileName+".go")
 	createFileFromStub(path, "migration", model, map[string]string{"{{FileName}}": fileName})
+	console.Success("Migration file created，after modify it, use `migrate up` to migrate database.")
+
 }

@@ -44,6 +44,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 		{
 			userGroup.GET("", uc.Index)
 			userGroup.GET("/:id", uc.Show)
+			userGroup.PUT("", uc.UpdateProfile)
 		}
 
 		cc := new(controllers.CategoriesController)
