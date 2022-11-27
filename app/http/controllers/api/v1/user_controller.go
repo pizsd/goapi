@@ -55,3 +55,60 @@ func (ctrl *UsersController) UpdateProfile(c *gin.Context) {
 		response.Abort500(c, "更新失败，请稍后尝试~")
 	}
 }
+
+func (ctrl *UsersController) UpdateEmail(c *gin.Context) {
+	request := requests.UserUpdateEmailRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdateEmail); !ok {
+		return
+	}
+	userModel := auth.User(c)
+
+	userModel.Name = request.Email
+	rowsAffected := userModel.Save()
+	if rowsAffected > 0 {
+		response.Data(c, userModel)
+	} else {
+		response.Abort500(c, "更新失败，请稍后尝试~")
+	}
+}
+
+func (ctrl *UsersController) UpdatePhone(c *gin.Context) {
+	request := requests.UserUpdatePhoneRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdatePhone); !ok {
+		return
+	}
+	userModel := auth.User(c)
+
+	userModel.Name = request.Phone
+	rowsAffected := userModel.Save()
+	if rowsAffected > 0 {
+		response.Data(c, userModel)
+	} else {
+		response.Abort500(c, "更新失败，请稍后尝试~")
+	}
+}
+
+func (ctrl *UsersController) UpdatePassword(c *gin.Context) {
+	request := requests.UserUpdatePasswordRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdatePassword); !ok {
+		return
+	}
+
+	userModel := auth.User(c)
+	// 验证原始密码是否正确
+	_, err := auth.Attempt(userModel.Name, request.Password)
+	if err != nil {
+		errs := make(map[string][]string)
+		errs["password"] = []string{"原密码不正确"}
+		// 失败，显示错误提示
+		response.ValidationError(c, errs)
+	} else {
+		userModel.Password = request.NewPassword
+		rowsAffected := userModel.Save()
+		if rowsAffected > 0 {
+			response.Success(c)
+		} else {
+			response.Abort500(c, "更新失败，请稍后尝试~")
+		}
+	}
+}

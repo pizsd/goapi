@@ -45,6 +45,9 @@ func RegisterApiRoutes(r *gin.Engine) {
 			userGroup.GET("", uc.Index)
 			userGroup.GET("/:id", uc.Show)
 			userGroup.PUT("", uc.UpdateProfile)
+			userGroup.PUT("/email", uc.UpdateEmail)
+			userGroup.PUT("/phone", uc.UpdatePhone)
+			userGroup.PUT("/password", uc.UpdatePassword)
 		}
 
 		cc := new(controllers.CategoriesController)

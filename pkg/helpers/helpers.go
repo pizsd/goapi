@@ -42,12 +42,9 @@ func RandomNumber(length int) string {
 	if n != length {
 		panic(err)
 	}
-	fmt.Println(b)
 	for i := 0; i < len(b); i++ {
-		fmt.Println(b[i], int(b[i]), int(b[i])%len(table))
 		b[i] = table[int(b[i])%len(table)]
 	}
-	fmt.Println(b, string(b))
 	return string(b)
 }
 

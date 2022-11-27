@@ -10,6 +10,7 @@ import (
 type ValidateFunc func(interface{}, *gin.Context) map[string][]string
 
 func Validate(c *gin.Context, obj interface{}, handler ValidateFunc) bool {
+	// ShouldBind 参数必须是指针类型
 	if err := c.ShouldBind(obj); err != nil {
 		response.BadRequest(c, err, "请求解析错误，请确认请求格式是否正确。")
 		fmt.Println(err.Error())

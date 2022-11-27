@@ -19,6 +19,13 @@ func VerifyPasswordConfirm(password, passwordConfirm string, errs map[string][]s
 	return errs
 }
 
+func VerifyNewPasswordConfirm(password, passwordConfirm string, errs map[string][]string) map[string][]string {
+	if password != passwordConfirm {
+		errs["new_password_confirm"] = append(errs["new_password_confirm"], "两次密码输入不一致")
+	}
+	return errs
+}
+
 func VerifyCode(key, answer string, errs map[string][]string) map[string][]string {
 	if ok := verifycode.NewVerifyCode().CheckAnswer(key, answer); !ok {
 		errs["verify_code"] = append(errs["verify_code"], "验证码错误")
