@@ -5,6 +5,8 @@ import (
 	"goapi/app/models/user"
 	"goapi/app/requests"
 	"goapi/pkg/auth"
+	"goapi/pkg/config"
+	"goapi/pkg/file"
 	"goapi/pkg/response"
 )
 
@@ -111,4 +113,24 @@ func (ctrl *UsersController) UpdatePassword(c *gin.Context) {
 			response.Abort500(c, "更新失败，请稍后尝试~")
 		}
 	}
+}
+
+func (ctrl *UsersController) UpdateAvatar(c *gin.Context) {
+
+	request := requests.UserUpdateAvatarRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdateAvatar); !ok {
+		return
+	}
+
+	avatar, err := file.SaveUploadAvatar(c, request.Avatar)
+	if err != nil {
+		response.Abort500(c, "上传头像失败，请稍后尝试~")
+		return
+	}
+
+	currentUser := auth.User(c)
+	currentUser.Avatar = config.GetString("app.url") + avatar
+	currentUser.Save()
+
+	response.Data(c, currentUser)
 }

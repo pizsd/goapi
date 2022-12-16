@@ -5,6 +5,7 @@ import (
 	controllers "goapi/app/http/controllers/api/v1"
 	"goapi/app/http/controllers/api/v1/auth"
 	"goapi/app/http/middlewares"
+	"goapi/pkg/config"
 	"net/http"
 )
 
@@ -14,7 +15,12 @@ func RegisterApiRoutes(r *gin.Engine) {
 			"status": "PONG",
 		})
 	})
-	v1 := r.Group("/v1")
+	var v1 *gin.RouterGroup
+	if len(config.Get("app.api_domain")) == 0 {
+		v1 = r.Group("/api/v1")
+	} else {
+		v1 = r.Group("/v1")
+	}
 	v1.Use(middlewares.LimitIP("1000-H"))
 	{
 		authGroup := v1.Group("/auth")
@@ -48,6 +54,7 @@ func RegisterApiRoutes(r *gin.Engine) {
 			userGroup.PUT("/email", uc.UpdateEmail)
 			userGroup.PUT("/phone", uc.UpdatePhone)
 			userGroup.PUT("/password", uc.UpdatePassword)
+			userGroup.PUT("/avatar", uc.UpdateAvatar)
 		}
 
 		cc := new(controllers.CategoriesController)
