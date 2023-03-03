@@ -5,13 +5,13 @@ import "goapi/pkg/config"
 func init() {
 	config.Add("captcha", func() map[string]interface{} {
 		return map[string]interface{}{
-			"height": 80,
-			"width":  240,
+			"height": 40,
+			"width":  98,
 			"length": 6,
 			// 数字的最大倾斜角度
 			"maxskew": 0.7,
 			// 图片背景里的混淆点数量
-			"dotcount": 80,
+			"dotcount": 60,
 			// 过期时间，单位是分钟
 			"expire_time": 15,
 			// debug 模式下的过期时间，方便本地开发调试

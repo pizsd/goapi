@@ -73,30 +73,32 @@ func (jwt *JWT) ParserToken(c *gin.Context) (*JWTCustomClaims, error) {
 	return nil, TokenInvalid
 }
 
-func (jwt *JWT) RefreshToken(c *gin.Context) (string, error) {
+func (jwt *JWT) RefreshToken(c *gin.Context) (string, int64, error) {
 	tokenString, err := jwt.getTokenFromHeader(c)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	token, err := jwt.parseTokenString(tokenString)
 	if err != nil {
 		validationErr, ok := err.(*jwtpkg.ValidationError)
 		if !ok || validationErr.Errors != jwtpkg.ValidationErrorExpired {
-			return "", err
+			return "", 0, err
 		}
 	}
 	claims := token.Claims.(*JWTCustomClaims)
 	// 用当前时间减去最大刷新时间，计算得到签名生成时间，如果真实的签名生成时间大于计算出来的签名生成时间，说明还没有超过最大刷新时间
 	x := app.TimenowInTimezone().Add(-jwt.MaxRefresh).Unix()
 	if claims.IssuedAt > x {
-		claims.StandardClaims.ExpiresAt = jwt.getExpireTime()
-		return jwt.createToken(*claims)
+		expireTime := jwt.getExpireTime()
+		claims.StandardClaims.ExpiresAt = expireTime
+		token, err := jwt.createToken(*claims)
+		return token, expireTime, err
 	}
-	return "", TokenExpiredMaxRefresh
+	return "", 0, TokenExpiredMaxRefresh
 }
 
-func (jwt *JWT) IsuseToken(id, name string) string {
+func (jwt *JWT) IsuseToken(id, name string) (string, int64) {
 	expireTime := jwt.getExpireTime()
 	var claims = JWTCustomClaims{
 		UserId:       id,
@@ -112,9 +114,9 @@ func (jwt *JWT) IsuseToken(id, name string) string {
 	token, err := jwt.createToken(claims)
 	if err != nil {
 		logger.LogIf(err)
-		return ""
+		return "", 0
 	}
-	return token
+	return token, expireTime
 }
 
 func (jwt *JWT) getTokenFromHeader(c *gin.Context) (string, error) {

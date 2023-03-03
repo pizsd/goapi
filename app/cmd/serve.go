@@ -18,7 +18,7 @@ var CmdServe = &cobra.Command{
 }
 
 func runWeb(cmd *cobra.Command, args []string) {
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	engine := gin.New()
 	bootstrap.SetupRoute(engine)
 	port := config.Get("app.port")

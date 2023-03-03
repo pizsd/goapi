@@ -45,9 +45,10 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 	}
 	_user.Create()
 	if _user.ID > 0 {
-		token := jwt.NewJwt().IsuseToken(_user.GetStringId(), _user.Name)
+		token, expires := jwt.NewJwt().IsuseToken(_user.GetStringId(), _user.Name)
 		response.CreatedJosn(c, gin.H{
 			"token":    token,
+			"expires":  expires,
 			"userinfo": _user,
 		})
 	} else {
@@ -67,9 +68,10 @@ func (sc *SignupController) SignupUsingEmail(c *gin.Context) {
 	}
 	_user.Create()
 	if _user.ID > 0 {
-		token := jwt.NewJwt().IsuseToken(_user.GetStringId(), _user.Name)
+		token, expires := jwt.NewJwt().IsuseToken(_user.GetStringId(), _user.Name)
 		response.CreatedJosn(c, gin.H{
 			"token":    token,
+			"expires":  expires,
 			"userinfo": _user,
 		})
 	} else {

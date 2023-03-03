@@ -22,9 +22,10 @@ func (lc *LoginController) LoginByPhone(c *gin.Context) {
 	if err != nil {
 		response.Error(c, err, "帐号不存在")
 	}
-	token := jwt.NewJwt().IsuseToken(user.GetStringId(), user.Name)
-	response.JSON(c, gin.H{
+	token, expires := jwt.NewJwt().IsuseToken(user.GetStringId(), user.Name)
+	response.Data(c, gin.H{
 		"token":    token,
+		"expires":  expires,
 		"userinfo": user,
 	})
 }
@@ -38,20 +39,22 @@ func (lc *LoginController) LoginByMulti(c *gin.Context) {
 	if err != nil {
 		response.Unauthorized(c, "用户名或密码错误")
 	} else {
-		token := jwt.NewJwt().IsuseToken(user.GetStringId(), request.LoginId)
-		response.JSON(c, gin.H{
+		token, expires := jwt.NewJwt().IsuseToken(user.GetStringId(), request.LoginId)
+		response.Data(c, gin.H{
 			"token":    token,
+			"expires":  expires,
 			"userinfo": user,
 		})
 	}
 }
 
 func (lc *LoginController) RefreshToken(c *gin.Context) {
-	token, err := jwt.NewJwt().RefreshToken(c)
+	token, expires, err := jwt.NewJwt().RefreshToken(c)
 	if err != nil {
 		response.Error(c, err, "token刷新失败")
 	}
-	response.JSON(c, gin.H{
-		"token": token,
+	response.Data(c, gin.H{
+		"token":   token,
+		"expires": expires,
 	})
 }
